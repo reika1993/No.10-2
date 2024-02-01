@@ -1,52 +1,17 @@
 # 概要
-DockerによるMySQLの構築を初めて行うひとのためのガイドプロジェクトです。
 
-# ハンズオン
+保護ねこと里親をつなぐプログラムを作成します。
 
-## 前提
+## 起動手順
 
-GitやUNIXコマンドの操作についてはすでに学習済みを想定しています。
-
-## お願い
-- もし手順にあやまりがあればぜひ教えて下さい!
-- 各コマンド実施時に表示されるメッセージはよく読みましょう!
-  - 問題が起きていることに気づかずどんどんコマンド実行して気づいたらめちゃくちゃに・・・というのはあるあるです。
-
-## Dockerの準備
-
-Dockerをインストールする。  
-確認方法はターミナルから下記を実行する。  
-Windows環境の方はターミナルとしてGit BashやWSL上のターミナルを使用する。
-
-```bash
-% docker -v
-Docker version 20.10.12, build e91ed5707e
-```
-
-## 手順
-
-レポジトリを任意のディレクトリ配下にてcloneします。 
-
-コマンドの例）  
-sshの場合: `git clone git@github.com:raisetech-for-student/docker-mysql-hands-on.git`  
-httpsの場合: `git clone https://github.com/raisetech-for-student/docker-mysql-hands-on.git`  
-どちらでもいいですが、それぞれがどういうものかは把握しておきましょう。  
-`GitHub ssh https 違い`で調べるとよいです。  
-
-cloneで指定する値は下記のように取得できます。  
-
-<img width="400" alt="スクリーンショット 2022-10-29 11 31 09" src="https://user-images.githubusercontent.com/62045457/198778836-86d84980-a6fd-464a-87f3-ff168b6b2cdf.png">
-
-このハンズオンリポジトリに限らず、GitHubで公開されているリポジトリは誰でもcloneできるのでぜひ他の人が作ったソースコードをcloneして、学習に使うなど活用してみてください。  
-
-git cloneを実行するとカレントディレクトリ上に`docker-mysql-hands-on`ディレクトリが作成されているはずです。  
+`docker-mysql-hands-on`ディレクトリを作成。
 
 ```bash
 % ls
 docker-mysql-hands-on
 ```
 
-ディレクトリ内に移動して作業を始めましょう。  
+ディレクトリ内に移動して作業を始めましょう。
 
 ```bash
 % cd docker-mysql-hands-on
@@ -67,10 +32,10 @@ docker-mysql-hands-on
     └── 001-create-table-and-load-data.sql
 ```
 
-このハンズオンはファイルを編集せずともこのディレクトリ内でコマンドを実行するとMySQLの構築、テーブルのデータ登録が行えるようになっています。  
+このハンズオンはファイルを編集せずともこのディレクトリ内でコマンドを実行するとMySQLの構築、テーブルのデータ登録が行えるようになっています。
 
+念の為、下記コマンドでdocker-compose.ymlがあることを確認してください。
 
-念の為、下記コマンドでdocker-compose.ymlがあることを確認してください。  
 ```bash
 % ls
 Dockerfile              conf                    renovate.json
@@ -79,7 +44,8 @@ README.md               docker-compose.yml      sql
 
 コンテナを起動する。  
 ただし初回は時間がかかります。  
-出力内容も下記より多いです。  
+出力内容も下記より多いです。
+
 ```bash
 % docker compose up -d
 [+] Running 2/2
@@ -88,7 +54,8 @@ README.md               docker-compose.yml      sql
 ```
 
 コンテナを確認します。  
-docker-mysql-hands-onがあればOKです。  
+docker-mysql-hands-onがあればOKです。
+
 ```bash
 % docker ps           
 CONTAINER ID   IMAGE                      COMMAND                  CREATED          STATUS          PORTS                               NAMES
@@ -98,22 +65,22 @@ CONTAINER ID   IMAGE                      COMMAND                  CREATED      
 MySQLにログインします。
 パスワードはdocker-compose.ymlに記載されているとおり「password」です。  
 ただし、ターミナルにパスワードを入力するとき、キーボードを叩いても何も表示されませんが心配せず、入力後にエンターキーを押してください。  
-パスワードの入力内容がまったく表示されないのはターミナルを盗み見されても問題がないようにするためです。  
+パスワードの入力内容がまったく表示されないのはターミナルを盗み見されても問題がないようにするためです。
 
 ```bash
 % docker compose exec db mysql -uroot -p    
 Enter password:
 ```
+
 ※Git Bashの場合、passwordを入力後に動作しないことがあります。
 Windows環境の方は下記コマンドの入力を試してください。
+
 ```bash
 $ winpty docker compose exec db mysql -uroot -p    
 Enter password:
 ```
 
-
-
-以下のように表示されればMySQLにログインできています。  
+以下のように表示されればMySQLにログインできています。
 
 ```bash
 % docker compose exec db mysql -uroot -p    
@@ -135,7 +102,7 @@ mysql>
 
 movie_listがあることを確認する。  
 以下の場合、`show databases;`と打ち込んでください。  
-SQL文においてセミコロンはコマンドの終わりを意味していますので入力忘れがないようにしましょう。  
+SQL文においてセミコロンはコマンドの終わりを意味していますので入力忘れがないようにしましょう。
 
 ```mysql
 mysql> show databases;
@@ -151,7 +118,7 @@ mysql> show databases;
 5 rows in set (0.03 sec)
 ```
 
-movie_listの利用を開始する。  
+movie_listの利用を開始する。
 
 ```mysql
 mysql> use movie_list;
@@ -207,19 +174,21 @@ mysql> select * from movies;
 3 rows in set (0.01 sec)
 ```
 
-ログアウトする。  
+ログアウトする。
+
 ```mysql
 mysql> exit
 Bye
 ```
 
-起動したDockerコンテナを停止する。  
+起動したDockerコンテナを停止する。
 
 ```bash
 $ docker compose down
 ```
 
-停止できていることを確認する。  
+停止できていることを確認する。
+
 ```bash
 % docker ps
 CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
