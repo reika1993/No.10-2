@@ -2,7 +2,7 @@ package com10;
 
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
 
 @Service
 public class CatService {
@@ -12,8 +12,21 @@ public class CatService {
         this.catMapper = catMapper;
     }
 
-    public Cat findAge(int age) {
-        Optional<Cat> cat = this.catMapper.findByAge(age);
-        return cat.orElseThrow(() -> new CatNotFoundException("age" + age + " not found"));
+    public List<Cat> findCats() {
+        List<Cat> cats = catMapper.findAll();
+        return cats;
+
     }
+
+    public List<Cat> findCatName(String name) {
+        List<Cat> cats = catMapper.findByName(name);
+        return cats;
+    }
+
+    public List<Cat> findCatAge(int age) {
+        List<Cat> cats = catMapper.findByAge(age);
+        return cats;
+    }
+
+
 }
